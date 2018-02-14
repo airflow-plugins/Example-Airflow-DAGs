@@ -20,8 +20,11 @@ This files contains three dags:
 
 Each DAG makes use of three custom operators:
     - RateLimitOperator
+    https://github.com/airflow-plugins/rate_limit_plugin/blob/master/operators/rate_limit_operator.py
     - MarketoToS3Operator
+    https://github.com/airflow-plugins/marketo_plugin/blob/master/operators/marketo_to_s3_operator.py#L19
     - S3ToRedshiftOperator
+    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift.py#L13
 
 This ongoing DAG pulls the following Marketo objects:
     - Activities
@@ -53,6 +56,8 @@ def create_dag(dag_id,
                marketo_conn_id,
                redshift_conn_id,
                redshift_schema,
+               s3_conn_id,
+               s3_bucket,
                default_args,
                catchup=False):
 
@@ -97,22 +102,28 @@ def create_dag(dag_id,
                                                        endpoint,
                                                        "{{ ts_nodash }}")
 
-            m = MarketoToS3Operator(task_id='get_{0}_marketo_data'.format(endpoint),
+            MARKETO_TASK_ID = 'get_{0}_marketo_data'.format(endpoint)
+            REDSHIFT_TASK_ID = 'marketo_{0}_to_redshift'.format(endpoint)
+
+            START_AT = "{{ execution_date.isoformat() }}"
+            END_AT = "{{ next_execution_date.isoformat() }}"
+
+            m = MarketoToS3Operator(task_id=MARKETO_TASK_ID,
                                     marketo_conn_id=marketo_conn_id,
                                     endpoint=endpoint,
-                                    s3_conn_id=S3_CONN_ID,
-                                    s3_bucket=S3_BUCKET,
+                                    s3_conn_id=s3_conn_id,
+                                    s3_bucket=s3_bucket,
                                     s3_key=S3_KEY,
                                     output_format='json',
-                                    start_at="{{ execution_date.isoformat() }}",
-                                    end_at="{{ next_execution_date.isoformat() }}")
+                                    start_at=START_AT,
+                                    end_at=END_AT)
 
             l >> m
 
             if endpoint != 'leads':
-                r = S3ToRedshiftOperator(task_id='marketo_{0}_to_redshift'.format(endpoint),
-                                         s3_conn_id=S3_CONN_ID,
-                                         s3_bucket=S3_BUCKET,
+                r = S3ToRedshiftOperator(task_id=REDSHIFT_TASK_ID,
+                                         s3_conn_id=s3_conn_id,
+                                         s3_bucket=s3_bucket,
                                          s3_key=S3_KEY,
                                          load_type='rebuild',
                                          load_format='JSON',
@@ -124,9 +135,9 @@ def create_dag(dag_id,
                                          redshift_conn_id=redshift_conn_id)
                 m >> r
             else:
-                rl = S3ToRedshiftOperator(task_id='marketo_{0}_to_redshift'.format(endpoint),
-                                          s3_conn_id=S3_CONN_ID,
-                                          s3_bucket=S3_BUCKET,
+                rl = S3ToRedshiftOperator(task_id=REDSHIFT_TASK_ID,
+                                          s3_conn_id=s3_conn_id,
+                                          s3_bucket=s3_bucket,
                                           s3_key=S3_KEY,
                                           load_type='upsert',
                                           load_format='JSON',
@@ -149,6 +160,8 @@ globals()[hourly_id] = create_dag(hourly_id,
                                   MARKETO_CONN_ID,
                                   REDSHIFT_CONN_ID,
                                   REDSHIFT_SCHEMA,
+                                  S3_CONN_ID,
+                                  S3_BUCKET,
                                   {'start_date': datetime(2018, 2, 13),
                                    'retries': 2,
                                    'retry_delay': timedelta(minutes=5),
@@ -161,6 +174,8 @@ globals()[daily_id] = create_dag(daily_id,
                                  MARKETO_CONN_ID,
                                  REDSHIFT_CONN_ID,
                                  REDSHIFT_SCHEMA,
+                                 S3_CONN_ID,
+                                 S3_BUCKET,
                                  {'start_date': datetime(2018, 1, 1),
                                   'end_date': datetime(2018, 2, 13),
                                   'retries': 2,
@@ -174,6 +189,8 @@ globals()[monthly_id] = create_dag(monthly_id,
                                    MARKETO_CONN_ID,
                                    REDSHIFT_CONN_ID,
                                    REDSHIFT_SCHEMA,
+                                   S3_CONN_ID,
+                                   S3_BUCKET,
                                    {'start_date': datetime(2013, 1, 1),
                                     'end_date': datetime(2018, 1, 1),
                                     'retries': 2,
