@@ -3,7 +3,7 @@ Marketo to Redshift
 
 This files contains three dags:
     - A monthly backfill from Jan 1, 2013.
-    - A monthly backfill from Jan 1, 2018.
+    - A daily backfill from Jan 1, 2018.
     - An ongoing hourly workflow.
 
 Each DAG makes use of three custom operators:
