@@ -1,15 +1,3 @@
-from datetime import datetime, timedelta
-
-from airflow import DAG
-
-from airflow.operators.dummy_operator import DummyOperator
-
-from airflow.operators import (MarketoToS3Operator,
-                               S3ToRedshiftOperator,
-                               RateLimitOperator)
-from MarketoPlugin.schemas._schema import schema
-
-
 """
 Marketo to Redshift
 
@@ -36,6 +24,17 @@ This ongoing DAG pulls the following Marketo objects:
 When backfilling, only the leads object is pulled. By default, it begins
 pulling since Jan 1, 2013.
 """
+
+from datetime import datetime, timedelta
+
+from airflow import DAG
+
+from airflow.operators.dummy_operator import DummyOperator
+
+from airflow.operators import (MarketoToS3Operator,
+                               S3ToRedshiftOperator,
+                               RateLimitOperator)
+from MarketoPlugin.schemas._schema import schema
 
 MARKETO_CONN_ID = ''
 MARKETO_SCHEMA = ''
