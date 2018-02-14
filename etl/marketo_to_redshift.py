@@ -152,14 +152,9 @@ globals()[hourly_id] = create_dag(hourly_id,
                                   {'start_date': datetime(2018, 2, 13),
                                    'retries': 2,
                                    'retry_delay': timedelta(minutes=5),
-                                   'email': [
-                                   'support+astronomer@calibermind.com',
-                                   'oren@calibermind.com',
-                                   'nic@calibermind.com',
-                                   'tony@calibermind.com',
-                                   'l5t3o4a9m9q9v1w9@astronomerteam.slack.com'
-                                   ],
-                                   'email_on_failure': True})
+                                   'email': [],
+                                   'email_on_failure': True},
+                                  catchup=True)
 
 globals()[daily_id] = create_dag(daily_id,
                                  '@daily',
