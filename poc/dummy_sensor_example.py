@@ -27,7 +27,6 @@ start = DummyOperator(
     dag=dag
 )
 
-dummies = []
 with dag:
     for i in range(0, 75):
         d_sensor = DummySensorOperator(
