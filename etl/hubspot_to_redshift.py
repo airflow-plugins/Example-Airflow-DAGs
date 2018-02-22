@@ -67,7 +67,7 @@ from airflow import DAG
 from airflow.hooks.http_hook import HttpHook
 from airflow.operators.dummy_operator import DummyOperator
 
-from airflow.operators import HubspotToS3Operator, HubspotS3ToRedshiftOperator
+from airflow.operators import HubspotToS3Operator, S3ToRedshiftOperator
 from HubspotPlugin.schemas import hubspot_schema
 
 
@@ -253,22 +253,22 @@ def create_dag(dag_id,
                 if table['name'] == 'timeline':
                     pass
                 else:
-                    r = HubspotS3ToRedshiftOperator(task_id='hubspot_{0}_to_redshift'
-                                                            .format(TABLE_NAME),
-                                                    s3_conn_id=S3_CONN_ID,
-                                                    s3_bucket=S3_BUCKET,
-                                                    s3_key=LOAD_KEY,
-                                                    origin_schema=getattr(hubspot_schema,
-                                                                          TABLE_NAME),
-                                                    origin_datatype='json',
-                                                    copy_params=COPY_PARAMS,
-                                                    load_type=LOAD_TYPE,
-                                                    primary_key=PRIMARY_KEY,
-                                                    incremental_key=INCREMENTAL_KEY,
-                                                    schema_location='local',
-                                                    redshift_schema=redshift_schema,
-                                                    table=TABLE_NAME,
-                                                    redshift_conn_id=redshift_conn_id)
+                    r = S3ToRedshiftOperator(task_id='hubspot_{0}_to_redshift'
+                                                    .format(TABLE_NAME),
+                                             s3_conn_id=S3_CONN_ID,
+                                             s3_bucket=S3_BUCKET,
+                                             s3_key=LOAD_KEY,
+                                             origin_schema=getattr(hubspot_schema,
+                                                                  TABLE_NAME),
+                                             origin_datatype='json',
+                                             copy_params=COPY_PARAMS,
+                                             load_type=LOAD_TYPE,
+                                             primary_key=PRIMARY_KEY,
+                                             incremental_key=INCREMENTAL_KEY,
+                                             schema_location='local',
+                                             redshift_schema=redshift_schema,
+                                             table=TABLE_NAME,
+                                             redshift_conn_id=redshift_conn_id)
 
                     h >> r
 
@@ -281,21 +281,21 @@ def create_dag(dag_id,
                         if SUBTABLE_NAME == 'timeline':
                             SUBTABLE_NAME = TABLE_NAME
 
-                        s = HubspotS3ToRedshiftOperator(task_id='hubspot_{0}_{1}_to_redshift'
-                                                                .format(TABLE_NAME,
-                                                                        subtable),
-                                                        s3_conn_id=S3_CONN_ID,
-                                                        s3_bucket=S3_BUCKET,
-                                                        s3_key=SUBTABLE_LOAD_KEY,
-                                                        origin_schema=getattr(hubspot_schema,
-                                                                              '{0}_{1}'.format(TABLE_NAME,subtable)),
-                                                        origin_datatype='json',
-                                                        load_type=LOAD_TYPE,
-                                                        schema_location='local',
-                                                        copy_params=COPY_PARAMS,
-                                                        redshift_schema=redshift_schema,
-                                                        table=SUBTABLE_NAME,
-                                                        redshift_conn_id=redshift_conn_id)
+                        s = S3ToRedshiftOperator(task_id='hubspot_{0}_{1}_to_redshift'
+                                                        .format(TABLE_NAME,
+                                                                subtable),
+                                                 s3_conn_id=S3_CONN_ID,
+                                                 s3_bucket=S3_BUCKET,
+                                                 s3_key=SUBTABLE_LOAD_KEY,
+                                                 origin_schema=getattr(hubspot_schema,
+                                                                      '{0}_{1}'.format(TABLE_NAME,subtable)),
+                                                 origin_datatype='json',
+                                                 load_type=LOAD_TYPE,
+                                                 schema_location='local',
+                                                 copy_params=COPY_PARAMS,
+                                                 redshift_schema=redshift_schema,
+                                                 table=SUBTABLE_NAME,
+                                                 redshift_conn_id=REDSHIFT_CONN_ID)
                         h >> s
 
         return dag
