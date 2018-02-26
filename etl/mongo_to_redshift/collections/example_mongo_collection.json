@@ -1,0 +1,43 @@
+"""
+Example MongoDB Collection Schema
+
+Below is an example schema mapping for a mongo collection.
+
+Available datatypes include:
+  - string
+  - text
+  - integer
+  - bigint
+  - boolean
+  - datetime
+  - float
+  - double
+
+The Redshift mappings these translate to can be found in the
+'_collection_processing' file.
+"""
+
+{
+	"_id": "String",
+	"title": "String",
+	"archived": "Boolean",
+	"description": "String",
+	"dateLastActivity": "DateTime",
+	"companyId": "String",
+	"userId": "String",
+	"createdAt": "DateTime",
+	"relatedUsers": [
+		"String"
+	],
+	"address": {
+		"ID": "Integer",
+		"Address1": "String",
+		"Address2": "String",
+		"City": "String",
+		"State": "String",
+		"ZipCode": "String",
+		"PrimaryPhone": "String",
+		"SecondaryPhone": "String",
+		"Fax": "String"
+	}
+}
