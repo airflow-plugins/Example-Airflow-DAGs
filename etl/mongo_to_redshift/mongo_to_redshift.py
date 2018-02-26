@@ -104,11 +104,6 @@ with dag:
         else:
             collection_name = collection['name']
 
-        if 'incremental_key' in collection.keys():
-            incremental_key = collection['incremental_key']
-        else:
-            incremental_key = None
-
         S3_KEY = 'mongo/raw/{0}_{1}.json'.format(collection['name'], '{{ ts_nodash}}')
 
         FLATTENED_KEY = 'mongo/flattened/{0}_{1}_flattened.json'.format(collection['name'], '{{ ts_nodash}}')
@@ -143,7 +138,7 @@ with dag:
                                         origin_schema=collection['schema'],
                                         redshift_table=collection['name'],
                                         primary_key=collection.get('primary_key', None),
-                                        incremental_key=incremental_key,
+                                        incremental_key=collection.get('incremental_key', None),
                                         load_type=collection['load_type'])
 
         kick_off_dag >> mongo >> flatten_object >> redshift
