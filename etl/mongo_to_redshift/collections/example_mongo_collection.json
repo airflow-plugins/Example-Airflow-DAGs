@@ -1,0 +1,33 @@
+{
+	"_id": "String",
+	"title": "String",
+	"archived": "Boolean",
+	"description": "String",
+	"dateLastActivity": "DateTime",
+	"companyId": "String",
+	"userId": "String",
+	"createdAt": "DateTime",
+	"relatedUsers": [
+		"String"
+	],
+	"attachments": [{
+		"url": "String",
+		"type": "String",
+		"name": "String",
+		"size": "Integer",
+		"options": {
+			"option1": "Boolean"
+		}
+	}],
+	"address": {
+		"ID": "Integer",
+		"Address1": "String",
+		"Address2": "String",
+		"City": "String",
+		"State": "String",
+		"ZipCode": "String",
+		"PrimaryPhone": "String",
+		"SecondaryPhone": "String",
+		"Fax": "String"
+	}
+}
