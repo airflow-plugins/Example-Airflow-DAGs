@@ -1,3 +1,14 @@
+"""
+This file contains a single method that accepts a mongo formatted schema
+(see "example_monog_collection.json") and outputs a mongo field projection
+and Redshift formatted schema mapping.
+
+This method will recursively crawl through the inputted json file, flattening
+out nested dictionaries and ignoring arrays. To flatten arrays, it is
+recommended that that gets broken out as a separate table.
+"""
+
+
 def _prepareData(data, subtable=''):
 
     schemaMapper = [{"mongo": "string",

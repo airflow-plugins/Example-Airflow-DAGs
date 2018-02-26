@@ -1,3 +1,23 @@
+"""
+MongoDB to Redshift
+
+This file contains one ongoing daily DAG.
+
+This DAG makes use of two custom operators:
+    - MongoToS3Operator
+    https://github.com/airflow-plugins/mongo_plugin/blob/master/operators/mongo_to_s3_operator.py#L9
+    - S3ToRedshiftOperator
+    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift.py#L13
+
+This DAG also uses a Mongo collection processing script that accepts a
+json formatted Mongo schema mapping and outputs both a Mongo query projection
+and a compatible Redshift schema mapping. This script can be found in
+"etl/mongo_to_redshift/collections/_collection_processing.py".
+
+This DAG also contains a flattening script that removes invalid characters
+from the Mongo keys as well as scrubbing out the "_$date" suffix that
+PyMongo appends to datetime fields.
+"""
 from datetime import datetime, timedelta
 import json
 import re
@@ -64,9 +84,10 @@ def flatten_py(**kwargs):
     output = (s3.get_key(s3_key,
                          bucket_name=s3_bucket)
                 .get_contents_as_string(encoding='utf-8'))
+
     output = output.split('\n')
 
-    output = '\n'.join([json.dumps({re.sub(r'[?|$|.|!]', r'', k.lower().replace('_$date','')): v for k, v in i.items()}) for i in output])
+    output = '\n'.join([json.dumps({re.sub(r'[?|$|.|!]', r'', k.lower().replace('_$date', '')): v for k, v in i.items()}) for i in output])
 
     s3.load_string(output,
                    flattened_key,
@@ -89,6 +110,7 @@ with dag:
             incremental_key = None
 
         S3_KEY = 'mongo/raw/{0}_{1}.json'.format(collection['name'], '{{ ts_nodash}}')
+
         FLATTENED_KEY = 'mongo/flattened/{0}_{1}_flattened.json'.format(collection['name'], '{{ ts_nodash}}')
 
         mongo = MongoToS3Operator(task_id='{0}_to_s3'.format(collection['name']),
