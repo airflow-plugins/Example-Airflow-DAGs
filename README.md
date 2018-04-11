@@ -1,4 +1,4 @@
-# Example Dags
+# Example DAGs
 
 This repository contains example DAGs that can be used "out-of-the-box" using
 operators found in the Airflow Plugins organization. These DAGs have a range
@@ -14,7 +14,7 @@ Amazon Redshift, with S3 as a staging store. These represent the simplest
 implementation of an "ETL" workflow and can either be used "out-of-the-box"
 or extended to add additional custom logic.
 
-### POC (Proof of Concept)
+### PoC (Proof of Concept)
 These DAGs demonstrate simple implementations of custom operators and Airflow
 setups. They are typically not "copy-and-paste" DAGs but rather walk through
 how something would work.
