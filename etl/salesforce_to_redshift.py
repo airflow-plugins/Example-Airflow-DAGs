@@ -7,7 +7,7 @@ Each DAG makes use of three custom operators:
     - SalesforceToS3Operator
     https://github.com/airflow-plugins/salesforce_plugin/blob/master/operators/salesforce_to_s3_operator.py#L60
     - S3ToRedshiftOperator
-    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift.py#L13
+    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift_operator.py#L13
 
 This ongoing DAG pulls the following Salesforce objects:
     - Account
