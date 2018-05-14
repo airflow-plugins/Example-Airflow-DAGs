@@ -7,7 +7,7 @@ This DAG makes use of two custom operators:
     - GoogleAnalyticsToS3Operator
     https://github.com/airflow-plugins/google_analytics_plugin/blob/master/operators/google_analytics_reporting_to_s3_operator.py#L11
     - S3ToRedshiftOperator
-    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift.py#L13
+    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift_operator.py#L13
 
 This DAG generates a report using v4 of the Google Analytics Core Reporting
 API. The dimensions and metrics are as follows. Note that while these can be
