@@ -7,7 +7,7 @@ This DAG makes use of two custom operators:
     - FacebookAdsInsightsToS3Operator
     https://github.com/airflow-plugins/facebook_ads_plugin/blob/master/operators/facebook_ads_to_s3_operator.py#L10
     - S3ToRedshiftOperator
-    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift.py#L13
+    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift_operator.py#L13
 
 This DAG creates four breakdown reports:
     - age_gender
