@@ -30,7 +30,7 @@ The standard fields included in each report are as follows:
     - cpm
     - cpp
     - ctr
-    - mpressions
+    - impressions
     - objective
     - reach
     - social_clicks
