@@ -77,7 +77,8 @@ tables = [{'name': 'Account',
            'load_type': 'Upsert'}]
 
 COPY_PARAMS = ["JSON 'auto'",
-               "TRUNCATECOLUMNS"]
+               "TRUNCATECOLUMNS",
+               "region as 'us-east-1'"]
 
 kick_off_dag = DummyOperator(task_id='kick_off_dag', dag=dag)
 
@@ -87,8 +88,7 @@ for table in tables:
 
     salesforce_to_s3 = SalesforceToS3Operator(task_id='{0}_to_S3'.format(table['name']),
                                               sf_conn_id=SF_CONN_ID,
-                                              obj=table,
-                                              output=S3_KEY,
+                                              sf_obj=table,
                                               fmt='ndjson',
                                               s3_conn_id=S3_CONN_ID,
                                               s3_bucket=S3_BUCKET,
