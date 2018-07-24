@@ -12,7 +12,7 @@ Each DAG makes use of three custom operators:
     - MarketoToS3Operator
     https://github.com/airflow-plugins/marketo_plugin/blob/master/operators/marketo_to_s3_operator.py#L19
     - S3ToRedshiftOperator
-    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift.py#L13
+    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift_operator.py#L13
 
 This ongoing DAG pulls the following Marketo objects:
     - Activities

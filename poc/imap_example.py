@@ -9,7 +9,7 @@ An example DAG using the IMAP plugin to:
 This files contains one dag:
     - An ongoing daily workflow.
 
-Each DAG makes use of two custom operators:
+Each DAG makes use of one custom hook:
     - ImapHook
     https://github.com/airflow-plugins/imap_plugin/blob/master/hooks/imap_hook.py#L9
 

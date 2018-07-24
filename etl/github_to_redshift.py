@@ -7,7 +7,7 @@ This DAG makes use of two custom operators:
     - GithubToS3Operator
     https://github.com/airflow-plugins/github_plugin/blob/master/operators/github_to_s3_operator.py#L9
     - S3ToRedshiftOperator
-    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift.py#L13
+    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift_operator.py#L13
 
 This DAG accesses the following objects:
     - commits

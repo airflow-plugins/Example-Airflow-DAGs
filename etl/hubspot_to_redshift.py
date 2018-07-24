@@ -10,7 +10,7 @@ Each DAG makes use of two custom operators:
     - HubspotToS3Operator
     https://github.com/airflow-plugins/hubspot_plugin/blob/master/operators/hubspot_to_s3_operator.py#L16
     - S3ToRedshiftOperator
-    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift.py#L13
+    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift_operator.py#L13
 
 This dag pulls the following endpoints and inserts data to the following
 table/subtable based on the followings schedules:

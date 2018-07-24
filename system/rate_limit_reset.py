@@ -1,5 +1,5 @@
 """
-Rate Limit Reseet
+Rate Limit Reset
 
 This files contains one dag that executes every 12 hours by default.
 

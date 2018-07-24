@@ -7,7 +7,7 @@ This DAG makes use of two custom operators:
     - MongoToS3Operator
     https://github.com/airflow-plugins/mongo_plugin/blob/master/operators/mongo_to_s3_operator.py#L9
     - S3ToRedshiftOperator
-    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift.py#L13
+    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift_operator.py#L13
 
 This DAG also uses a Mongo collection processing script that accepts a
 json formatted Mongo schema mapping and outputs both a Mongo query projection

@@ -12,7 +12,7 @@ Each DAG makes use of two custom operators:
     - IMAPToS3Operator
     https://github.com/airflow-plugins/imap_plugin/blob/master/operators/imap_to_s3_operator.py#L13
     - S3ToRedshiftOperator
-    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift.py#L13
+    https://github.com/airflow-plugins/redshift_plugin/blob/master/operators/s3_to_redshift_operator.py#L13
 
 """
 
